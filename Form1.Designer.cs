@@ -35,16 +35,17 @@
             txtSearch = new TextBox();
             txtEdit = new TextBox();
             btnEdit = new Button();
-            txtMessage = new TextBox();
             lblMessage = new Label();
+            rtbMessage = new RichTextBox();
+            lblHour = new Label();
             SuspendLayout();
             // 
             // lbNeutrino
             // 
             lbNeutrino.FormattingEnabled = true;
-            lbNeutrino.Location = new Point(12, 29);
+            lbNeutrino.Location = new Point(69, 29);
             lbNeutrino.Name = "lbNeutrino";
-            lbNeutrino.Size = new Size(167, 454);
+            lbNeutrino.Size = new Size(110, 379);
             lbNeutrino.TabIndex = 0;
             lbNeutrino.SelectedIndexChanged += lbNeutrino_SelectedIndexChanged;
             // 
@@ -101,14 +102,6 @@
             btnEdit.UseVisualStyleBackColor = true;
             btnEdit.Click += btnEdit_Click;
             // 
-            // txtMessage
-            // 
-            txtMessage.Location = new Point(185, 262);
-            txtMessage.Multiline = true;
-            txtMessage.Name = "txtMessage";
-            txtMessage.Size = new Size(122, 55);
-            txtMessage.TabIndex = 7;
-            // 
             // lblMessage
             // 
             lblMessage.AutoSize = true;
@@ -119,13 +112,32 @@
             lblMessage.TabIndex = 8;
             lblMessage.Text = "Message";
             // 
+            // rtbMessage
+            // 
+            rtbMessage.Font = new Font("Segoe UI", 10F);
+            rtbMessage.Location = new Point(190, 262);
+            rtbMessage.Name = "rtbMessage";
+            rtbMessage.ReadOnly = true;
+            rtbMessage.Size = new Size(117, 66);
+            rtbMessage.TabIndex = 9;
+            rtbMessage.Text = "";
+            // 
+            // lblHour
+            // 
+            lblHour.Location = new Point(12, 31);
+            lblHour.Name = "lblHour";
+            lblHour.Size = new Size(55, 378);
+            lblHour.TabIndex = 10;
+            lblHour.Text = "Hour 1";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(319, 492);
+            ClientSize = new Size(319, 415);
+            Controls.Add(lblHour);
+            Controls.Add(rtbMessage);
             Controls.Add(lblMessage);
-            Controls.Add(txtMessage);
             Controls.Add(btnEdit);
             Controls.Add(txtEdit);
             Controls.Add(txtSearch);
@@ -149,7 +161,8 @@
         private TextBox txtSearch;
         private TextBox txtEdit;
         private Button btnEdit;
-        private TextBox txtMessage;
         private Label lblMessage;
+        private RichTextBox rtbMessage;
+        private Label lblHour;
     }
 }
