@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\p220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj": {}
+    "C:\\Users\\P220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj": {}
   },
   "projects": {
-    "C:\\Users\\p220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj": {
+    "C:\\Users\\P220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\p220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj",
+        "projectUniqueName": "C:\\Users\\P220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj",
         "projectName": "Astronomical Processing",
-        "projectPath": "C:\\Users\\p220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj",
-        "packagesPath": "C:\\Users\\p220041\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\p220041\\source\\repos\\Astronomical-Processing\\obj\\",
+        "projectPath": "C:\\Users\\P220041\\source\\repos\\Astronomical-Processing\\Astronomical Processing.csproj",
+        "packagesPath": "C:\\Users\\P220041\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\P220041\\Source\\Repos\\Astronomical-Processing\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\p220041\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\P220041\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

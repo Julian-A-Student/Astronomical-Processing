@@ -1,5 +1,11 @@
-using System.Collections.Generic;
-using System.Security.Cryptography;
+/* Name: Julian Anthony (P220041)
+ * Sprint: 1
+ * Date: 2025/04/25
+ * Version: 1
+ * Program name: Astronomical Processing
+ * Brief explanation: Allows editing, sorting and searching values in an array
+ *      using a listbox and textbox input.
+*/
 
 namespace Astronomical_Processing
 {
@@ -7,28 +13,38 @@ namespace Astronomical_Processing
     {
         // Global variables
         int[] neutrinoArr = new int[24];
+        // Also track the index so hours can be sorted.
         int[] indexOrder = new int[24];
         int editIndex;
-        bool changed = false;
+        bool recentEdit = false;
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // When the form loads, create the array and update UI to reflect values
+            CreateArray();
+            UpdateLB();
+            UpdateHourLabel();
+        }
+
         private void CreateArray()
         {
+            // Fill the array with random ints between 10 and 90 (inclusive)
             Random random = new Random();
             for (int i = 0; i < neutrinoArr.Length; i++)
             {
-                neutrinoArr[i] = random.Next(10, 90);
+                neutrinoArr[i] = random.Next(10, 91);
                 indexOrder[i] = i;
             }
-            UpdateLB(false);
         }
 
         private void UpdateHourLabel()
         {
+            // Creates a multiline label with the respective hours. Used to update when sorted
             string hourStr = "";
             for (int i = 0; i < indexOrder.Length; i++)
             {
@@ -37,28 +53,28 @@ namespace Astronomical_Processing
             lblHour.Text = hourStr;
         }
 
-        private void UpdateLB(bool changed = true)
+        /// <summary>
+        /// Updates the listbox with neutrinoArr as datasource
+        /// </summary>
+        private void UpdateLB()
         {
-            this.changed = changed;
             lbNeutrino.DataSource = null; // Reset
             lbNeutrino.DataSource = neutrinoArr;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            CreateArray();
-            UpdateHourLabel();
-        }
-
         private void lbNeutrino_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Update the editIndex 
             if (lbNeutrino.SelectedIndex != -1)
             {
                 editIndex = lbNeutrino.SelectedIndex;
                 txtEdit.Text = neutrinoArr[editIndex].ToString();
             }
         }
-
+        /// <summary>
+        /// Bubble sort algorithm that sorts values by looping through and checking if
+        /// the next value in array is larger, 1 by 1.
+        /// </summary>
         private void BubbleSort()
         {
             bool next = true;
@@ -69,6 +85,7 @@ namespace Astronomical_Processing
                 {
                     if (neutrinoArr[j + 1] < neutrinoArr[j])
                     {
+                        // Also update the index order to keep track of the hour the value reflects
                         int temp = neutrinoArr[j];
                         int tempInd = indexOrder[j];
                         neutrinoArr[j] = neutrinoArr[j + 1];
@@ -81,11 +98,21 @@ namespace Astronomical_Processing
             }
         }
 
+        /// <summary>
+        /// Updates the rtb text used for notices
+        /// </summary>
+        /// <param name="text"></param>
         private void UpdateText(string text)
         {
             rtbMessage.ForeColor = Color.Black;
             rtbMessage.Text = text;
         }
+
+        /// <summary>
+        /// Override for UpdateText for color output for error messages
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="col"></param>
         private void UpdateText(string text, Color col)
         {
             rtbMessage.ForeColor = col;
@@ -94,6 +121,7 @@ namespace Astronomical_Processing
 
         private void btnSort_Click(object sender, EventArgs e)
         {
+            // When sorting, UI needs to be updated to reflect new order. Also notify user of sort.
             BubbleSort();
             UpdateLB();
             UpdateHourLabel();
@@ -102,6 +130,11 @@ namespace Astronomical_Processing
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            /* Edit values in the array and update with appropriate error messages
+             * If it's not a valid integer, warn the user, else if not already the value user entered
+             * then we can update the array, update the listbox and let the user know what values
+             * changed and where.
+            */
             if (!int.TryParse(txtEdit.Text, out int editVal))
             {
                 UpdateText("Please enter a valid integer!", Color.Red);
@@ -111,22 +144,33 @@ namespace Astronomical_Processing
                 int old = neutrinoArr[editIndex];
                 neutrinoArr[editIndex] = editVal;
                 UpdateLB();
-                UpdateText("Value at hour " + (editIndex + 1) + " has been changed from " +
+                recentEdit = true;
+                UpdateText("Value at hour " + (indexOrder[editIndex] + 1) + " has been changed from " +
                     old + " to " + editVal + ".");
             }
-            else if (!changed)
+            else if (!recentEdit)
             {
-                UpdateText("Value at hour " + (editIndex + 1) + " is already " +
+                // Don't unecessarily edit, let user know, don't override recent edit, avoid misclicks
+                UpdateText("Value at hour " + (indexOrder[editIndex] + 1) + " is already " +
                     editVal + ".");
+            }
+            else
+            {
+                recentEdit = false;
             }
         }
 
+        /// <summary>
+        /// Algorithm for BinarySearching. Requires values to be pre-sorted
+        /// </summary>
         private void BinarySearch()
         {
             int min = 0;
             int max = neutrinoArr.Length - 1;
 
-            if (!(int.TryParse(txtSearch.Text, out int searchVal))) {
+            // If the user didn't enter a valid number, warn user and exit function
+            if (!(int.TryParse(txtSearch.Text, out int searchVal)))
+            {
                 UpdateText("Please enter a valid integer!", Color.Red);
                 return;
             }
@@ -134,10 +178,11 @@ namespace Astronomical_Processing
             while (min <= max)
             {
                 int mid = (min + max) / 2;
-
+                // If the value is found, notify user, select the value in lb and exit function
                 if (searchVal == neutrinoArr[mid])
                 {
-                    UpdateText(searchVal + " was found at hour " + (indexOrder[mid] + 1));
+                    UpdateText(searchVal + " was found at hour " + (indexOrder[mid] + 1) + ".");
+                    lbNeutrino.SelectedIndex = mid;
                     return;
                 }
                 else if (neutrinoArr[mid] >= searchVal)
@@ -149,12 +194,13 @@ namespace Astronomical_Processing
                     min = mid + 1;
                 }
             }
-
+            // If it was unable to find the requested value, notify user
             UpdateText("No values found matching " + searchVal + ".", Color.OrangeRed);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            // When searching we need to sort first, also update UI to reflect the sort
             BubbleSort();
             UpdateLB();
             UpdateHourLabel();
