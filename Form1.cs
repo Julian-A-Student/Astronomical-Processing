@@ -126,7 +126,8 @@ namespace Astronomical_Processing
             int min = 0;
             int max = neutrinoArr.Length - 1;
 
-            if (!(int.TryParse(txtSearch.Text, out int searchVal))) {
+            if (!(int.TryParse(txtSearch.Text, out int searchVal)))
+            {
                 UpdateText("Please enter a valid integer!", Color.Red);
                 return;
             }
@@ -153,7 +154,7 @@ namespace Astronomical_Processing
             UpdateText("No values found matching " + searchVal + ".", Color.OrangeRed);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void btnBinSearch_Click(object sender, EventArgs e)
         {
             BubbleSort();
             UpdateLB();
