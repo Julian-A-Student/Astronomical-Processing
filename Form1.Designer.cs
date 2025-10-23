@@ -145,6 +145,7 @@
             btnLinSearch.TabIndex = 12;
             btnLinSearch.Text = "Linear";
             btnLinSearch.UseVisualStyleBackColor = true;
+            btnLinSearch.Click += btnLinSearch_Click;
             // 
             // lblSearch
             // 
@@ -174,6 +175,7 @@
             btnMidEx.TabIndex = 15;
             btnMidEx.Text = "Mid-extreme";
             btnMidEx.UseVisualStyleBackColor = true;
+            btnMidEx.Click += btnMidEx_Click;
             // 
             // btnMode
             // 
@@ -183,6 +185,7 @@
             btnMode.TabIndex = 16;
             btnMode.Text = "Mode";
             btnMode.UseVisualStyleBackColor = true;
+            btnMode.Click += btnMode_Click;
             // 
             // btnAvg
             // 
@@ -192,6 +195,7 @@
             btnAvg.TabIndex = 17;
             btnAvg.Text = "Average";
             btnAvg.UseVisualStyleBackColor = true;
+            btnAvg.Click += btnAvg_Click;
             // 
             // btnRange
             // 
@@ -201,6 +205,7 @@
             btnRange.TabIndex = 18;
             btnRange.Text = "Range";
             btnRange.UseVisualStyleBackColor = true;
+            btnRange.Click += btnRange_Click;
             // 
             // Form1
             // 

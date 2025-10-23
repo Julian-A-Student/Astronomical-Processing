@@ -7,6 +7,11 @@
  *      using a listbox and textbox input.
 */
 
+using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Cryptography;
+using static System.Net.Mime.MediaTypeNames;
+
 namespace Astronomical_Processing
 {
     public partial class Form1 : Form
@@ -21,6 +26,7 @@ namespace Astronomical_Processing
         public Form1()
         {
             InitializeComponent();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -122,7 +128,8 @@ namespace Astronomical_Processing
         private void btnSort_Click(object sender, EventArgs e)
         {
             // When sorting, UI needs to be updated to reflect new order. Also notify user of sort.
-            BubbleSort();
+            //BubbleSort();
+            LinearSort();
             UpdateLB();
             UpdateHourLabel();
             UpdateText("Values have been sorted in ascending order.");
@@ -198,6 +205,163 @@ namespace Astronomical_Processing
             UpdateText("No values found matching " + searchVal + ".", Color.OrangeRed);
         }
 
+        private void LinearSort()
+        {
+            int[] minMax = CalcMinMax();
+            int min = minMax[0];
+            int max = minMax[1];
+
+
+            List<int> counts = new List<int>();
+
+            for (int j = 0; j < neutrinoArr.Length - 1; j++)
+            {
+                if (neutrinoArr[j + 1] < neutrinoArr[j])
+                {
+                        // Also update the index order to keep track of the hour the value reflects
+                        int temp = neutrinoArr[j];
+                        int tempInd = indexOrder[j];
+                        neutrinoArr[j] = neutrinoArr[j + 1];
+                        indexOrder[j] = indexOrder[j + 1];
+                        neutrinoArr[j + 1] = temp;
+                        indexOrder[j + 1] = tempInd;
+                    j = -1;
+                    }
+            }
+        }
+
+        private void LinearSearch()
+        {
+            List<int> hourIndexes = new List<int>();
+            int firstIndex = -1;
+
+            if (!(int.TryParse(txtSearch.Text, out int searchVal)))
+            {
+                UpdateText("Please enter a valid integer!", Color.Red);
+                return;
+            }
+
+            for (int i = 0; i < neutrinoArr.Length; i++)
+            {
+                if (neutrinoArr[i] == searchVal)
+                {
+                    if (firstIndex == -1)
+                    {
+                        firstIndex = i;
+                    }
+                    hourIndexes.Add(indexOrder[i] + 1);
+                }
+            }
+
+            if (hourIndexes.Count < 1)
+            {
+                UpdateText("No values found matching " + searchVal + ".", Color.OrangeRed);
+            }
+            else if (hourIndexes.Count == 1)
+            {
+                UpdateText(searchVal + " was found at hour " + hourIndexes[0] + ".");
+                lbNeutrino.SelectedIndex = firstIndex;
+            }
+            else
+            {
+                UpdateText(searchVal + " was found at hours " + string.Join(", ", hourIndexes) +
+                    ".");
+                lbNeutrino.SelectedIndex = firstIndex;
+            }
+        }
+
+        private void CalcMode()
+        {
+            // Create a dictionary to store the unique values and their occurances
+            var counter = new Dictionary<int, int>();
+            int highestCount = 1;
+            List<int> mode = new List<int>();
+            /* Loop through all values in array and check if they've been added
+             * to the dictionary already, if they have increase the counter and
+             * check if the occurance is higher than previous highest to increase.
+             * If it's unique add to dictionary.
+             */
+            foreach (int val in neutrinoArr)
+            {
+                if (counter.ContainsKey(val))
+                {
+                    counter[val]++;
+                    if (counter[val] > highestCount)
+                    {
+                        highestCount++;
+                    }
+                }
+                else
+                {
+                    counter.Add(val, 1);
+                }
+            }
+
+            // Check if the values in the dictionary equal the highest and add to a list
+            foreach (var coun in counter)
+            {
+                if (coun.Value == highestCount)
+                {
+                    mode.Add(coun.Key);
+                }
+            }
+            // If there's no distinctively appearing mode (<2) notify user
+            if (highestCount < 2)
+            {
+                UpdateText("No mode found.", Color.OrangeRed);
+            }
+            else
+            {
+                UpdateText("Mode: " + string.Join(", ", mode));
+            }
+        }
+
+        private void CalcMidExtreme()
+        {
+            int[] minMax = CalcMinMax();
+            double midExtreme = (minMax[1] - minMax[0]) / 2.0; // (Max - Min)
+            UpdateText("Mid-Extreme: " + midExtreme);
+        }
+
+        private int[] CalcMinMax()
+        {
+            // Set to min/max values as they get calculated later
+            int min = int.MaxValue;
+            int max = int.MinValue;
+
+            foreach (int val in neutrinoArr)
+            {
+                if (val < min)
+                {
+                    min = val;
+                }
+                else if (val > max)
+                {
+                    max = val;
+                }
+            }
+            return [min, max];
+        }
+
+        private void CalcAvg()
+        {
+            double total = 0;
+
+            foreach (int val in neutrinoArr)
+            {
+                total += val;
+            }
+            double avg = total / neutrinoArr.Length;
+            UpdateText("Average: " + avg.ToString("F2"));
+        }
+
+        private void CalcRange()
+        {
+            int[] minMax = CalcMinMax();
+            int range = minMax[1] - minMax[0]; // Max - Min
+            UpdateText("Range: " + range);
+        }
+
         private void btnBinSearch_Click(object sender, EventArgs e)
         {
             // When searching we need to sort first, also update UI to reflect the sort
@@ -206,5 +370,35 @@ namespace Astronomical_Processing
             UpdateHourLabel();
             BinarySearch();
         }
+
+        private void btnLinSearch_Click(object sender, EventArgs e)
+        {
+            LinearSort();
+            UpdateLB();
+            UpdateHourLabel();
+            LinearSearch();
+        }
+
+        private void btnMode_Click(object sender, EventArgs e)
+        {
+            CalcMode();
+        }
+
+        private void btnMidEx_Click(object sender, EventArgs e)
+        {
+            CalcMidExtreme();
+        }
+
+        private void btnAvg_Click(object sender, EventArgs e)
+        {
+            CalcAvg();
+        }
+
+        private void btnRange_Click(object sender, EventArgs e)
+        {
+            CalcRange();
+        }
+
+        
     }
 }
