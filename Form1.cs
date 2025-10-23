@@ -7,10 +7,6 @@
  *      using a listbox and textbox input.
 */
 
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Cryptography;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Astronomical_Processing
 {
