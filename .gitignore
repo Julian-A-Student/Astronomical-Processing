@@ -6,3 +6,5 @@
 /.vs/Astronomical Processing
 /.vs
 /bin/Debug/net9.0-windows
+/obj/Astronomical Processing.csproj.nuget.dgspec.json
+/obj/project.nuget.cache
