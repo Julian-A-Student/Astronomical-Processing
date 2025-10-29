@@ -31,13 +31,20 @@
             lbNeutrino = new ListBox();
             lblNeutrino = new Label();
             btnSort = new Button();
-            btnSearch = new Button();
             txtSearch = new TextBox();
             txtEdit = new TextBox();
             btnEdit = new Button();
             lblMessage = new Label();
             rtbMessage = new RichTextBox();
             lblHour = new Label();
+            btnBinSearch = new Button();
+            btnLinSearch = new Button();
+            lblSearch = new Label();
+            lblCalc = new Label();
+            btnMidEx = new Button();
+            btnMode = new Button();
+            btnAvg = new Button();
+            btnRange = new Button();
             SuspendLayout();
             // 
             // lbNeutrino
@@ -60,43 +67,33 @@
             // 
             // btnSort
             // 
-            btnSort.Location = new Point(214, 29);
+            btnSort.Location = new Point(190, 29);
             btnSort.Name = "btnSort";
-            btnSort.Size = new Size(75, 23);
+            btnSort.Size = new Size(100, 23);
             btnSort.TabIndex = 2;
             btnSort.Text = "Sort";
             btnSort.UseVisualStyleBackColor = true;
             btnSort.Click += btnSort_Click;
             // 
-            // btnSearch
-            // 
-            btnSearch.Location = new Point(214, 198);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(75, 23);
-            btnSearch.TabIndex = 3;
-            btnSearch.Text = "Search";
-            btnSearch.UseVisualStyleBackColor = true;
-            btnSearch.Click += btnSearch_Click;
-            // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(214, 169);
+            txtSearch.Location = new Point(190, 182);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(75, 23);
+            txtSearch.Size = new Size(100, 23);
             txtSearch.TabIndex = 4;
             // 
             // txtEdit
             // 
-            txtEdit.Location = new Point(214, 90);
+            txtEdit.Location = new Point(190, 86);
             txtEdit.Name = "txtEdit";
-            txtEdit.Size = new Size(75, 23);
+            txtEdit.Size = new Size(100, 23);
             txtEdit.TabIndex = 5;
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(214, 119);
+            btnEdit.Location = new Point(190, 115);
             btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(75, 23);
+            btnEdit.Size = new Size(100, 23);
             btnEdit.TabIndex = 6;
             btnEdit.Text = "Edit Value";
             btnEdit.UseVisualStyleBackColor = true;
@@ -105,20 +102,20 @@
             // lblMessage
             // 
             lblMessage.AutoSize = true;
-            lblMessage.Font = new Font("Segoe UI", 9F, FontStyle.Underline);
-            lblMessage.Location = new Point(223, 244);
+            lblMessage.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Underline);
+            lblMessage.Location = new Point(278, 258);
             lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(53, 15);
+            lblMessage.Size = new Size(55, 15);
             lblMessage.TabIndex = 8;
             lblMessage.Text = "Message";
             // 
             // rtbMessage
             // 
             rtbMessage.Font = new Font("Segoe UI", 10F);
-            rtbMessage.Location = new Point(190, 262);
+            rtbMessage.Location = new Point(190, 286);
             rtbMessage.Name = "rtbMessage";
             rtbMessage.ReadOnly = true;
-            rtbMessage.Size = new Size(117, 66);
+            rtbMessage.Size = new Size(211, 65);
             rtbMessage.TabIndex = 9;
             rtbMessage.Text = "";
             // 
@@ -130,18 +127,105 @@
             lblHour.TabIndex = 10;
             lblHour.Text = "Hour 1";
             // 
+            // btnBinSearch
+            // 
+            btnBinSearch.Location = new Point(190, 211);
+            btnBinSearch.Name = "btnBinSearch";
+            btnBinSearch.Size = new Size(50, 23);
+            btnBinSearch.TabIndex = 11;
+            btnBinSearch.Text = "Binary";
+            btnBinSearch.UseVisualStyleBackColor = true;
+            btnBinSearch.Click += btnBinSearch_Click;
+            // 
+            // btnLinSearch
+            // 
+            btnLinSearch.Location = new Point(240, 211);
+            btnLinSearch.Name = "btnLinSearch";
+            btnLinSearch.Size = new Size(50, 23);
+            btnLinSearch.TabIndex = 12;
+            btnLinSearch.Text = "Linear";
+            btnLinSearch.UseVisualStyleBackColor = true;
+            btnLinSearch.Click += btnLinSearch_Click;
+            // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblSearch.Location = new Point(220, 164);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(45, 15);
+            lblSearch.TabIndex = 13;
+            lblSearch.Text = "Search";
+            // 
+            // lblCalc
+            // 
+            lblCalc.AutoSize = true;
+            lblCalc.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblCalc.Location = new Point(320, 90);
+            lblCalc.Name = "lblCalc";
+            lblCalc.Size = new Size(70, 19);
+            lblCalc.TabIndex = 14;
+            lblCalc.Text = "Calculate";
+            // 
+            // btnMidEx
+            // 
+            btnMidEx.Location = new Point(309, 123);
+            btnMidEx.Name = "btnMidEx";
+            btnMidEx.Size = new Size(92, 23);
+            btnMidEx.TabIndex = 15;
+            btnMidEx.Text = "Mid-extreme";
+            btnMidEx.UseVisualStyleBackColor = true;
+            btnMidEx.Click += btnMidEx_Click;
+            // 
+            // btnMode
+            // 
+            btnMode.Location = new Point(309, 152);
+            btnMode.Name = "btnMode";
+            btnMode.Size = new Size(92, 23);
+            btnMode.TabIndex = 16;
+            btnMode.Text = "Mode";
+            btnMode.UseVisualStyleBackColor = true;
+            btnMode.Click += btnMode_Click;
+            // 
+            // btnAvg
+            // 
+            btnAvg.Location = new Point(309, 181);
+            btnAvg.Name = "btnAvg";
+            btnAvg.Size = new Size(92, 23);
+            btnAvg.TabIndex = 17;
+            btnAvg.Text = "Average";
+            btnAvg.UseVisualStyleBackColor = true;
+            btnAvg.Click += btnAvg_Click;
+            // 
+            // btnRange
+            // 
+            btnRange.Location = new Point(309, 211);
+            btnRange.Name = "btnRange";
+            btnRange.Size = new Size(92, 23);
+            btnRange.TabIndex = 18;
+            btnRange.Text = "Range";
+            btnRange.UseVisualStyleBackColor = true;
+            btnRange.Click += btnRange_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(319, 415);
+            ClientSize = new Size(413, 415);
+            Controls.Add(btnRange);
+            Controls.Add(btnAvg);
+            Controls.Add(btnMode);
+            Controls.Add(btnMidEx);
+            Controls.Add(lblCalc);
+            Controls.Add(lblSearch);
+            Controls.Add(btnLinSearch);
+            Controls.Add(btnBinSearch);
             Controls.Add(lblHour);
             Controls.Add(rtbMessage);
             Controls.Add(lblMessage);
             Controls.Add(btnEdit);
             Controls.Add(txtEdit);
             Controls.Add(txtSearch);
-            Controls.Add(btnSearch);
             Controls.Add(btnSort);
             Controls.Add(lblNeutrino);
             Controls.Add(lbNeutrino);
@@ -157,12 +241,19 @@
         private ListBox lbNeutrino;
         private Label lblNeutrino;
         private Button btnSort;
-        private Button btnSearch;
         private TextBox txtSearch;
         private TextBox txtEdit;
         private Button btnEdit;
         private Label lblMessage;
         private RichTextBox rtbMessage;
         private Label lblHour;
+        private Button btnBinSearch;
+        private Button btnLinSearch;
+        private Label lblSearch;
+        private Label lblCalc;
+        private Button btnMidEx;
+        private Button btnMode;
+        private Button btnAvg;
+        private Button btnRange;
     }
 }
