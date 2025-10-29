@@ -22,7 +22,6 @@ namespace Astronomical_Processing
         public Form1()
         {
             InitializeComponent();
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -31,8 +30,12 @@ namespace Astronomical_Processing
             CreateArray();
             UpdateLB();
             UpdateHourLabel();
+            CreateToolTips();
         }
 
+        /// <summary>
+        /// Creates the initial array of neutrino numbers randomly
+        /// </summary>
         private void CreateArray()
         {
             // Fill the array with random ints between 10 and 90 (inclusive)
@@ -43,7 +46,9 @@ namespace Astronomical_Processing
                 indexOrder[i] = i;
             }
         }
-
+        /// <summary>
+        /// Updates the hour labels otherwise it the wouldn't match.
+        /// </summary>
         private void UpdateHourLabel()
         {
             // Creates a multiline label with the respective hours. Used to update when sorted
@@ -64,6 +69,29 @@ namespace Astronomical_Processing
             lbNeutrino.DataSource = neutrinoArr;
         }
 
+        /// <summary>
+        /// Creates tooltips for all GUI components except labels
+        /// </summary>
+        private void CreateToolTips()
+        {
+            ToolTip ttInfo = new ToolTip();
+            ttInfo.InitialDelay = 750;
+            ttInfo.AutoPopDelay = 3500;
+            ttInfo.SetToolTip(lbNeutrino, "Displays all the neutrino numbers.");
+            ttInfo.SetToolTip(btnSort, "Sorts the neutrino numbers ascendingly.");
+            ttInfo.SetToolTip(txtSearch, "Enter integer value here to search for.");
+            ttInfo.SetToolTip(txtEdit, "Enter integer value here to edit the current selected index's value.");
+            ttInfo.SetToolTip(btnEdit, "Click to edit the value at the selected index.");
+            ttInfo.SetToolTip(rtbMessage, "Displays output and error messages.");
+            ttInfo.SetToolTip(btnBinSearch, "Click to search with binary search method. Notice: Also sorts data" +
+                " ascendingly");
+            ttInfo.SetToolTip(btnLinSearch, "Click to search with linear search method.");
+            ttInfo.SetToolTip(btnMidEx, "Click to calculate the mid extreme.");
+            ttInfo.SetToolTip(btnMode, "Click to calculate the mode.");
+            ttInfo.SetToolTip(btnAvg, "Click to calculate the average.");
+            ttInfo.SetToolTip(btnRange, "Click to calculate the range.");
+        }
+
         private void lbNeutrino_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Update the editIndex 
@@ -71,32 +99,6 @@ namespace Astronomical_Processing
             {
                 editIndex = lbNeutrino.SelectedIndex;
                 txtEdit.Text = neutrinoArr[editIndex].ToString();
-            }
-        }
-        /// <summary>
-        /// Bubble sort algorithm that sorts values by looping through and checking if
-        /// the next value in array is larger, 1 by 1.
-        /// </summary>
-        private void BubbleSort()
-        {
-            bool next = true;
-            for (int i = 1; i < neutrinoArr.Length && next; i++)
-            {
-                next = false;
-                for (int j = 0; j < neutrinoArr.Length - 1; j++)
-                {
-                    if (neutrinoArr[j + 1] < neutrinoArr[j])
-                    {
-                        // Also update the index order to keep track of the hour the value reflects
-                        int temp = neutrinoArr[j];
-                        int tempInd = indexOrder[j];
-                        neutrinoArr[j] = neutrinoArr[j + 1];
-                        indexOrder[j] = indexOrder[j + 1];
-                        neutrinoArr[j + 1] = temp;
-                        indexOrder[j + 1] = tempInd;
-                        next = true;
-                    }
-                }
             }
         }
 
@@ -124,7 +126,6 @@ namespace Astronomical_Processing
         private void btnSort_Click(object sender, EventArgs e)
         {
             // When sorting, UI needs to be updated to reflect new order. Also notify user of sort.
-            //BubbleSort();
             LinearSort();
             UpdateLB();
             UpdateHourLabel();
@@ -177,6 +178,10 @@ namespace Astronomical_Processing
                 UpdateText("Please enter a valid integer!", Color.Red);
                 return;
             }
+            // Binary search requires values to be sorted first
+            LinearSort();
+            UpdateLB();
+            UpdateHourLabel();
 
             while (min <= max)
             {
@@ -201,31 +206,34 @@ namespace Astronomical_Processing
             UpdateText("No values found matching " + searchVal + ".", Color.OrangeRed);
         }
 
+        /// <summary>
+        /// Algorithm for Linear sorting
+        /// </summary>
         private void LinearSort()
         {
-            int[] minMax = CalcMinMax();
-            int min = minMax[0];
-            int max = minMax[1];
-
-
-            List<int> counts = new List<int>();
-
+            /* Loops through the array, checking if the next number in the index is a higher value and
+             * swaps the values, utilising a temp variable. If it ends up swapping, the loop is
+             * restarted by setting j to -1 (0 after increment).
+             */
             for (int j = 0; j < neutrinoArr.Length - 1; j++)
             {
                 if (neutrinoArr[j + 1] < neutrinoArr[j])
                 {
-                        // Also update the index order to keep track of the hour the value reflects
-                        int temp = neutrinoArr[j];
-                        int tempInd = indexOrder[j];
-                        neutrinoArr[j] = neutrinoArr[j + 1];
-                        indexOrder[j] = indexOrder[j + 1];
-                        neutrinoArr[j + 1] = temp;
-                        indexOrder[j + 1] = tempInd;
+                    // Also update the index order to keep track of the hour the value reflects
+                    int temp = neutrinoArr[j];
+                    int tempInd = indexOrder[j];
+                    neutrinoArr[j] = neutrinoArr[j + 1];
+                    indexOrder[j] = indexOrder[j + 1];
+                    neutrinoArr[j + 1] = temp;
+                    indexOrder[j + 1] = tempInd;
                     j = -1;
-                    }
+                }
             }
         }
 
+        /// <summary>
+        /// Algorithm for Linear searching.
+        /// </summary>
         private void LinearSearch()
         {
             List<int> hourIndexes = new List<int>();
@@ -237,6 +245,9 @@ namespace Astronomical_Processing
                 return;
             }
 
+            /* Loop through the array and check for matching integers and add their indexs to a
+             * list. Also save the first index for updating the listbox later.             * 
+             */
             for (int i = 0; i < neutrinoArr.Length; i++)
             {
                 if (neutrinoArr[i] == searchVal)
@@ -249,6 +260,7 @@ namespace Astronomical_Processing
                 }
             }
 
+            // Notify user of search results
             if (hourIndexes.Count < 1)
             {
                 UpdateText("No values found matching " + searchVal + ".", Color.OrangeRed);
@@ -265,7 +277,9 @@ namespace Astronomical_Processing
                 lbNeutrino.SelectedIndex = firstIndex;
             }
         }
-
+        /// <summary>
+        /// Calculates the mode of the values in the array
+        /// </summary>
         private void CalcMode()
         {
             // Create a dictionary to store the unique values and their occurances
@@ -311,14 +325,20 @@ namespace Astronomical_Processing
                 UpdateText("Mode: " + string.Join(", ", mode));
             }
         }
-
+        /// <summary>
+        /// Calculates the mid extreme of the values in the array
+        /// </summary>
         private void CalcMidExtreme()
         {
+            // Calls CalcMinMax() which returns as an array [min, max]
             int[] minMax = CalcMinMax();
-            double midExtreme = (minMax[1] - minMax[0]) / 2.0; // (Max - Min)
+            double midExtreme = (minMax[1] - minMax[0]) / 2.0;
             UpdateText("Mid-Extreme: " + midExtreme);
         }
-
+        /// <summary>
+        /// Calculates the min and max and returns them as an array
+        /// </summary>
+        /// <returns>[min, max]</returns>
         private int[] CalcMinMax()
         {
             // Set to min/max values as they get calculated later
@@ -339,6 +359,9 @@ namespace Astronomical_Processing
             return [min, max];
         }
 
+        /// <summary>
+        /// Calculates the average of the values in the array
+        /// </summary>
         private void CalcAvg()
         {
             double total = 0;
@@ -351,6 +374,9 @@ namespace Astronomical_Processing
             UpdateText("Average: " + avg.ToString("F2"));
         }
 
+        /// <summary>
+        /// Calculates the range of the values in the array
+        /// </summary>
         private void CalcRange()
         {
             int[] minMax = CalcMinMax();
@@ -360,16 +386,11 @@ namespace Astronomical_Processing
 
         private void btnBinSearch_Click(object sender, EventArgs e)
         {
-            // When searching we need to sort first, also update UI to reflect the sort
-            BubbleSort();
-            UpdateLB();
-            UpdateHourLabel();
             BinarySearch();
         }
 
         private void btnLinSearch_Click(object sender, EventArgs e)
         {
-            LinearSort();
             UpdateLB();
             UpdateHourLabel();
             LinearSearch();
@@ -395,6 +416,6 @@ namespace Astronomical_Processing
             CalcRange();
         }
 
-        
+
     }
 }
