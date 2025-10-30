@@ -1,10 +1,10 @@
 /* Name: Julian Anthony (P220041)
- * Sprint: 1
- * Date: 2025/04/25
+ * Sprint: 2
+ * Date: 2025/10/30
  * Version: 1
  * Program name: Astronomical Processing
- * Brief explanation: Allows editing, sorting and searching values in an array
- *      using a listbox and textbox input.
+ * Brief explanation: Allows editing, sorting, searching and calculating from 
+ * values in an array using a listbox and textbox input.
 */
 
 
