@@ -391,8 +391,6 @@ namespace Astronomical_Processing
 
         private void btnLinSearch_Click(object sender, EventArgs e)
         {
-            UpdateLB();
-            UpdateHourLabel();
             LinearSearch();
         }
 
