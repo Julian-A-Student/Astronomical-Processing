@@ -350,8 +350,8 @@ namespace Astronomical_Processing
                 if (val < min)
                 {
                     min = val;
-                }
-                else if (val > max)
+                } 
+                if (val > max)
                 {
                     max = val;
                 }
